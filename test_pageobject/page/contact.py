@@ -223,7 +223,6 @@ class Contact(BasePage):
                 if isinstance(value, tuple):
                     for item in value:
                         name_locator = (By.XPATH, '//td[@title="%s"]/preceding-sibling::td[1]' % item)
-                        print(name_locator)
                         member_element = self._driver.find_elements(*name_locator)
                         if len(member_element) != 0:
                             for element in member_element:
@@ -237,14 +236,13 @@ class Contact(BasePage):
             elif delete_type == 2:
                 if isinstance(value, tuple):
                     for item in value:
-                        name_locator = (By.XPATH, '//td[@title="%s"]/preceding-sibling::td[4]' % item)
-                        print(name_locator)
-                        member_element = self._driver.find_elements(*name_locator)
+                        tel_locator = (By.XPATH, '//td[@title="%s"]/preceding-sibling::td[4]' % item)
+                        member_element = self._driver.find_elements(*tel_locator)
                         if len(member_element) != 0:
                             member_element[0].click()
                 else:
-                    name_locator = (By.XPATH, '//td[@title="%s"]/preceding-sibling::td[4]' % value)
-                    member_element = self._driver.find_elements(*name_locator)
+                    tel_locator = (By.XPATH, '//td[@title="%s"]/preceding-sibling::td[4]' % value)
+                    member_element = self._driver.find_elements(*tel_locator)
                     if len(member_element) != 0:
                         member_element[0].click()
             else:
