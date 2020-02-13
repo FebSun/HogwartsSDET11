@@ -6,7 +6,9 @@ class TestMain:
         self.main = Main(reuse=True)
 
     def test_add_member(self):
-        self.main.add_member().add_member("1111111", "111", "852", "898989898")
+        self.main.add_member().add_member('testerhome', 'testerhome001', 'testerhome001', '女','852',
+            '98765432', '0523-87654321','testerhome001@testerhome.com', '艾欧尼亚', 2, ("十一", "广州"),
+            '测试', '上级', "自定义", "小喽啰", False, "E:\\file\\111.png")
         # assert "aaa" in self.main.import_user().get_message()
 
     def test_send_message(self):
