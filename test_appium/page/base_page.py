@@ -3,8 +3,9 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 import logging
 
-class BasePage:
 
+class BasePage:
+    logging.basicConfig(level=logging.INFO)
     _driver: WebDriver
     _black_list = [
         (),
