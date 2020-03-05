@@ -24,9 +24,10 @@ class App(BasePage):
             # caps["chromedriverExecutableDir"] = "E:\\chromedriver"
             caps["chromedriverExecutable"] = "E:\\chromedriver\\2.20\\chromedriver.exe"
             # caps["chromedriverChromeMappingFile"] = "E:\\HogwartsSDET11\\test_appium\\chromeDriverMapping.json"
+            caps["newCommandTimeout"] = 120
 
             self._driver = webdriver.Remote("http://localhost:4723/wd/hub", caps)
-            self._driver.implicitly_wait(20)
+            self._driver.implicitly_wait(3)
         else:
             self._driver.start_activity(self._app_package, self._app_activity)
 
@@ -39,7 +40,4 @@ class App(BasePage):
         pass
 
     def main(self):
-        agree_elements = self.finds(MobileBy.ID, "tv_agree")
-        if len(agree_elements) != 0:
-            agree_elements[0].click()
         return Main(self._driver)

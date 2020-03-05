@@ -1,0 +1,4 @@
+- by: id
+  locator: tv_search
+  action: find
+- action: click

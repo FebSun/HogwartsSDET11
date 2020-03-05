@@ -1,15 +1,14 @@
 from appium.webdriver.common.mobileby import MobileBy
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.wait import WebDriverWait
 
 from page.base_page import BasePage
-from page.quote import Quote
 
 
 class Search(BasePage):
     def search(self, key: str):
-        self.find(MobileBy.ID, "search_input_text").send_keys(key)
-        self.find(MobileBy.ID, "name").click()
+        # self.find(MobileBy.ID, "search_input_text").send_keys(key)
+        # self.find(MobileBy.ID, "name").click()
+        self._params = {"key": key}
+        self.steps("..//page//search.yaml")
         return self
 
     def get_price(self, key: str = None) -> float:
@@ -25,4 +24,5 @@ class Search(BasePage):
 
     def go_back_to_quote(self):
         self.find(MobileBy.XPATH, '//*[@text="取消"]').click()
-        return Quote(self)
+        # return Quotes(self)
+        return self
