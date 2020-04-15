@@ -12,7 +12,7 @@ class TestXueQiu:
     def setup(self):
         caps = {}
         caps["platformName"] = "android"
-        caps["deviceName"] = "Hogwarts11_6"
+        caps["deviceName"] = "hogwarts_mumu"
         caps["appPackage"] = "com.xueqiu.android"
         caps["appActivity"] = ".view.WelcomeActivityAlias"
         caps["noReset"] = True

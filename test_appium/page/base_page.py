@@ -9,6 +9,28 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
 
+def except_handle(fun):
+    def magic(*args, **kwargs):
+        _self: BasePage = args[0]
+        try:
+            element = fun(*args, **kwargs)
+            _self._error_count = 0
+            return element
+        except Exception as ex:
+            if _self._error_count > _self._error_max:
+                raise ex
+            _self._error_count += 1
+            for element in _self._black_list:
+                logging.info(element)
+                elements = _self.finds(element)
+                if len(elements) > 0:
+                    elements[0].click()
+                    return magic(*args, **kwargs)
+            logging.warning("black list no one found")
+            raise ex
+    return magic
+
+
 class BasePage:
     logging.basicConfig(level=logging.INFO)
     _driver: WebDriver
@@ -24,24 +46,35 @@ class BasePage:
     def __init__(self, driver: WebDriver = None):
         self._driver = driver
 
-    def find(self, locator, value=None):
-        logging.info(locator)
-        logging.info(value)
-        try:
-            element = self._driver.find_element(*locator) if isinstance(locator, tuple) else \
-                self._driver.find_element(locator, value)
-            self._error_count = 0
-            return element
-        except Exception as ex:
-            if self._error_count > self._error_max:
-                raise ex
-            self._error_count += 1
-            for element in self._black_list:
-                logging.info(element)
-                elements = self.finds(element)
-                if len(elements) > 0:
-                    elements[0].click()
-            return self.find(locator, value)
+    # def find(self, locator, value=None):
+    #     logging.info(locator)
+    #     logging.info(value)
+    #     try:
+    #         element = self._driver.find_element(*locator) if isinstance(locator, tuple) else \
+    #             self._driver.find_element(locator, value)
+    #         self._error_count = 0
+    #         return element
+    #     except Exception as ex:
+    #         if self._error_count > self._error_max:
+    #             raise ex
+    #         self._error_count += 1
+    #         for element in self._black_list:
+    #             logging.info(element)
+    #             elements = self.finds(element)
+    #             if len(elements) > 0:
+    #                 elements[0].click()
+    #                 return self.find(locator, value)
+    #         logging.info("找不到控件")
+    #         raise ex
+
+
+
+    @except_handle
+    def find(self, locator, value: str = None):
+        if isinstance(locator, tuple):
+            return self._driver.find_element(*locator)
+        else:
+            return self._driver.find_element(locator, value)
 
     def finds(self, locator, value: str = None):
         if isinstance(locator, tuple):
